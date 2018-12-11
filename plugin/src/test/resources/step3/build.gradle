@@ -1,0 +1,51 @@
+buildscript {
+    /*repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'me.lycrus:SolidityBuilder:1.0'
+    }*/
+}
+plugins {
+    id 'java'
+    id 'me.lycrus.SolidityBuilder' version '1.0'
+}
+
+group 'me.lycrus.SolidityBuilder.test'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    /*maven { url "https://dl.bintray.com/ethereum/maven" }*/
+}
+
+dependencies {
+    //compile 'org.web3j:core:3.6.0'
+}
+
+println "pluginTest build.gradle invoked"
+
+solidity {
+
+    source "myPackage", "$projectDir/src/main/solidity/contracts",{
+        include "**/*.sol"
+    }
+    source "otherPackage", "$projectDir/src/main/smartContracts/", "other/packages", {
+        include "**/*.sol"
+    }
+
+    libraryRoot "$projectDir/src/main/solidity/libraries"
+
+    library "$projectDir/src/main/solidity/custom_library/cusLib"
+
+    remapping "testLib", "$projectDir/src/main/solidity/test_library/testLib", "testLibRefresh"
+
+    remapping "openzeppelin-solidity", "$projectDir/src/main/solidity/node_modules/openzeppelin-solidity/", "openzeppelinSolidity"
+
+    version "provided"
+    //version "native"
+    //version "0.4.25"
+}
